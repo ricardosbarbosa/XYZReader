@@ -9,5 +9,8 @@
     <dimen name="fab_margin">24dp</dimen>
 
     <dimen name="app_bar_height">200dp</dimen>
+    <dimen name="card_view_margin">4dp</dimen>
+    <dimen name="padding_title">16dp</dimen>
+    <dimen name="padding_title_bottom">4dp</dimen>
 
 </resources>
