@@ -16,13 +16,11 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
 import android.widget.ImageView;
 
 import com.example.xyzreader.R;
@@ -59,19 +57,13 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-//        mPager.setPageMargin((int) TypedValue
-//                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
-//        mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             //declare key
             Boolean first = true;
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-//                super.onPageScrollStateChanged(state);
-
-            }
+            public void onPageScrollStateChanged(int state) {}
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -101,7 +93,7 @@ public class ArticleDetailActivity extends AppCompatActivity
             }
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
@@ -126,16 +118,11 @@ public class ArticleDetailActivity extends AppCompatActivity
 
     public void updateUI() {
 
-        if (mCursor != null) {
-//            getSupportActionBar().setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
-            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-            collapsingToolbarLayout.setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
-            ImageView imageViewToolbar =  (ImageView) findViewById(R.id.photo);
-            Picasso.with(imageViewToolbar.getContext()).load(mCursor.getString(ArticleLoader.Query.PHOTO_URL)).into(imageViewToolbar);
-        }
-        else {
-
-        }
+//        getSupportActionBar().setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
+        ImageView imageViewToolbar =  (ImageView) findViewById(R.id.photo);
+        Picasso.with(imageViewToolbar.getContext()).load(mCursor.getString(ArticleLoader.Query.PHOTO_URL)).into(imageViewToolbar);
 
     }
 
