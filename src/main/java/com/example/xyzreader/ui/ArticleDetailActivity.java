@@ -39,6 +39,8 @@ public class ArticleDetailActivity extends AppCompatActivity
     private Cursor mCursor;
     private long mStartId;
 
+    private long mSelectedItemId;
+
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
 
@@ -60,11 +62,24 @@ public class ArticleDetailActivity extends AppCompatActivity
 //        mPager.setPageMargin((int) TypedValue
 //                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
 //        mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            //declare key
+            Boolean first = true;
+
             @Override
             public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
+//                super.onPageScrollStateChanged(state);
+
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                if (first && positionOffset == 0 && positionOffsetPixels == 0){
+                    onPageSelected(0);
+                    first = false;
+                }
 
             }
 
@@ -74,6 +89,7 @@ public class ArticleDetailActivity extends AppCompatActivity
                     mCursor.moveToPosition(position);
 
                 }
+                mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
                 updateUI();
             }
         });
@@ -81,6 +97,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
+                mSelectedItemId = mStartId;
             }
         }
 
