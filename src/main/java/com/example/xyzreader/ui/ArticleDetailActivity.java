@@ -57,32 +57,31 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            //declare key
-            Boolean first = true;
+        final ViewPager.SimpleOnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                if (first && positionOffset == 0 && positionOffsetPixels == 0){
-                    onPageSelected(0);
-                    first = false;
-                }
-
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
             }
 
             @Override
             public void onPageSelected(int position) {
                 if (mCursor != null) {
                     mCursor.moveToPosition(position);
-
+                    mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
+                    updateUI();
                 }
-                mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
-                updateUI();
+            }
+        };
+
+        mPager.addOnPageChangeListener(pageChangeListener);
+//        pageChangeListener.onPageSelected(0);
+
+        mPager.post(new Runnable(){
+            @Override
+            public void run() {
+                pageChangeListener.onPageSelected(mPager.getCurrentItem());
             }
         });
 
